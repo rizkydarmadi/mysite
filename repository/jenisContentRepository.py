@@ -25,5 +25,46 @@ class jenisContentRepository():
         with Session() as session:
             stmt = select(jenisContent).where(jenisContent.id==id)
             data = session.execute(stmt).scalar()
+        return data
+    
+    @staticmethod
+    def create_new_jenis_cont(name:str,catatan:str)->jenisContent:
+        with Session() as session:
+            new_jenis_cont = jenisContent(
+                name = name,
+                catatan = catatan
+            )
+            session.add(new_jenis_cont)
+            session.commit()
+            session.refresh(new_jenis_cont)
+        return new_jenis_cont
+    
+    @staticmethod
+    def update_jenis_cont(id:int,name:str,catatan:str)->jenisContent:
+        with Session() as session:
+
+            stmt = select(jenisContent).where(jenisContent.id==id)
+            data = session.execute(stmt).scalar()
+
+            # updated data
+            data.name = name
+            data .catatan = catatan
+            session.commit()
+
+            stmt = select(jenisContent).where(jenisContent.id==id)
+            data = session.execute(stmt).scalar()
 
         return data
+    
+    @staticmethod
+    def delete_jenis_cont(id:int):
+        with Session() as session:
+            stmt = select(jenisContent).where(jenisContent.id==id)
+            data = session.execute(stmt).scalar()
+
+            name_data = data.name
+
+            session.delete(data)
+            session.commit()
+        
+        return name_data
