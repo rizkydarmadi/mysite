@@ -24,4 +24,4 @@ Base = declarative_base()
 # for alembic automigrations
 from models.user import User
 from models.jenis_content import jenisContent
-from models.content import content
+from models.content import Content

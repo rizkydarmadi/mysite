@@ -2,7 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Text,Boolean,DateTim
 from sqlalchemy.orm import relationship
 from models import Base
 
-class content(Base):
+class Content(Base):
     __tablename__ = 'content'
 
     id = Column('id', Integer, primary_key=True, nullable=False)
@@ -15,5 +15,8 @@ class content(Base):
     updated_date = Column('updated_date', DateTime(timezone=True))
     created_by = Column('created_by', ForeignKey('user.username'), nullable=False)
     updated_by = Column('updated_by', ForeignKey('user.username'))
+
+    jenis = relationship('jenisContent')
+
 
 
