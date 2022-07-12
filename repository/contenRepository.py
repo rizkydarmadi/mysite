@@ -1,6 +1,6 @@
 from typing import Tuple,List
-from models import Session, jenis_content
-from sqlalchemy import or_, select, func,and_
+from models import Session
+from sqlalchemy import or_, select, func
 from sqlalchemy.orm import joinedload
 from models.content import Content
 from models.user import User
@@ -34,12 +34,14 @@ class ContentRepository():
                 .options(joinedload(Content.jenis))\
                 .where(Content.id==id,Content.status==True)
             data = session.execute(stmt).scalar()
+
+        return data
     
     @staticmethod
     def create_new_content(jenis_cont:int,judul:str,narasi:str,status:bool,lampiran:str,user:User)->Content:
         with Session() as session:
             new_content = Content(
-                jns_content_id=jenis_content,
+                jns_content_id=jenis_cont,
                 judul=judul,
                 narasi=narasi,
                 status=status,
@@ -50,6 +52,7 @@ class ContentRepository():
             session.add(new_content)
             session.commit()
             session.refresh(new_content)
+
         return new_content
     
     @staticmethod
@@ -85,7 +88,7 @@ class ContentRepository():
 
             session.delete(data)
             session.commit()
-        
+
         return judul_cont
 
     
